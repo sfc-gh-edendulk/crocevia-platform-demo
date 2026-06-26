@@ -1,0 +1,27 @@
+name: 'crocevia'
+version: '1.0.0'
+config-version: 2
+
+# Profile used for LOCAL runs (see profiles.yml.example). When deployed as a native
+# Snowflake dbt project (EXECUTE DBT PROJECT), the Snowflake session provides the connection.
+profile: 'crocevia'
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+# All models land in CROCEVIA_DB.PLATFORM_DEMO (see macros/generate_schema_name.sql,
+# which uses the configured schema verbatim instead of prefixing the target schema).
+models:
+  crocevia:
+    +database: CROCEVIA_DB
+    +schema: PLATFORM_DEMO
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table
+
+# Anchor the demo window: marts cover the last 24 months of synthetic sales.
+vars:
+  sales_lookback_months: 24

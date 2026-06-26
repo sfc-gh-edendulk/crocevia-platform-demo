@@ -1,0 +1,39 @@
+version: 2
+
+models:
+  - name: mart_sales_daily
+    description: "Daily sales fact at store x product-category grain (orders, units, revenue, discount)."
+    columns:
+      - name: sale_date
+        tests: [not_null]
+      - name: store_id
+        tests: [not_null]
+      - name: product_category
+        tests: [not_null]
+      - name: revenue_eur
+        tests: [not_null]
+
+  - name: mart_product_performance
+    description: "Per-product performance with recent-30-day revenue slice."
+    columns:
+      - name: product_id
+        tests: [not_null, unique]
+      - name: product_category
+        tests: [not_null]
+
+  - name: mart_store_performance
+    description: "Per-store performance with recent-30-day revenue and average basket."
+    columns:
+      - name: store_id
+        tests: [not_null, unique]
+
+  - name: mart_customer_rfm
+    description: "Customer RFM scores and segment over the demo window."
+    columns:
+      - name: customer_id
+        tests: [not_null, unique]
+      - name: segment
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['LOYAL_HIGH_VALUE','NEW_CUSTOMER','AT_RISK','HIGH_SPENDER','STANDARD']

@@ -1,0 +1,37 @@
+# --- secrets / keys (never commit) ---
+*.p8
+*.pem
+*.pub
+*.key
+.env
+.env.*
+!.env.example
+**/secrets.*
+
+# --- private / customer-specific material (kept local only) ---
+_private/
+
+# --- node / react ---
+node_modules/
+dist/
+build/
+.vite/
+*.log
+npm-debug.log*
+
+# --- python / notebooks ---
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# --- dbt ---
+dbt_crocevia/target/
+dbt_crocevia/dbt_packages/
+dbt_crocevia/logs/
+# native profile contains the account id; commit profiles.yml.example instead
+dbt_crocevia/profiles.yml
+
+# --- os ---
+.DS_Store

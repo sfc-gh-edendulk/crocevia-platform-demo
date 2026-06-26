@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: stg_sales
+    description: "Cleaned sales line items for the last 24 months, with net sales computed."
+    columns:
+      - name: order_id
+        description: "Transaction id (not unique at line-item grain)."
+        tests: [not_null]
+      - name: product_id
+        tests: [not_null]
+      - name: sale_date
+        tests: [not_null]
+
+  - name: stg_products
+    description: "Product catalogue with parsed numeric price and rating."
+    columns:
+      - name: product_id
+        description: "Product key."
+        tests: [not_null, unique]
+
+  - name: stg_stores
+    description: "Store directory with derived departement code."
+    columns:
+      - name: store_id
+        tests: [not_null, unique]
+
+  - name: stg_customers
+    description: "Customer master (PII retained, masked downstream)."
+    columns:
+      - name: customer_id
+        tests: [not_null, unique]

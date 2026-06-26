@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: bronze
+    database: CROCEVIA_DB
+    schema: BRONZE_DATA
+    description: "Raw Crocevia hypermarket data (synthetic)."
+    tables:
+      - name: CROCEVIA_SALES_20PCT_STORES
+        description: "Line-item sales, 2022-01-01 to 2025-06-30 (~1.3B rows)."
+      - name: CROCEVIA_PRODUCTS
+        description: "Product catalogue: name, brand, price, category, subcategory, rating."
+      - name: CROCEVIA_STORES
+        description: "French store directory: name, address, postcode, opening hours."
+      - name: CROCEVIA_CRM
+        description: "Customer master with PII (email, phone, name, DOB)."

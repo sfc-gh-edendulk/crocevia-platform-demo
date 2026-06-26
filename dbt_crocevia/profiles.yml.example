@@ -1,0 +1,19 @@
+# Example profile for LOCAL dbt runs. Copy to ~/.dbt/profiles.yml (or set DBT_PROFILES_DIR).
+# Not needed when running as a native Snowflake dbt project (EXECUTE DBT PROJECT),
+# where the Snowflake session supplies the connection.
+crocevia:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      # Use ONE auth method:
+      authenticator: snowflake            # or 'externalbrowser'
+      password: "{{ env_var('SNOWFLAKE_PASSWORD', '') }}"
+      # private_key_path: "{{ env_var('SNOWFLAKE_PRIVATE_KEY_PATH', '') }}"
+      role: ACCOUNTADMIN
+      warehouse: CR_DEV_WH
+      database: CROCEVIA_DB
+      schema: PLATFORM_DEMO
+      threads: 4
