@@ -9,10 +9,12 @@ USE SCHEMA CROCEVIA_DB.PLATFORM_DEMO;
 CREATE STAGE IF NOT EXISTS CROCEVIA_DB.PLATFORM_DEMO.STREAMLIT_STAGE
   DIRECTORY = (ENABLE = TRUE);
 
--- Upload the app + environment (paths are relative to where you run snow sql)
+-- Upload the app + environment + theme (paths are relative to where you run snow sql)
 PUT file://streamlit_app.py @CROCEVIA_DB.PLATFORM_DEMO.STREAMLIT_STAGE/crocevia_cockpit
   OVERWRITE = TRUE AUTO_COMPRESS = FALSE;
 PUT file://environment.yml  @CROCEVIA_DB.PLATFORM_DEMO.STREAMLIT_STAGE/crocevia_cockpit
+  OVERWRITE = TRUE AUTO_COMPRESS = FALSE;
+PUT file://.streamlit/config.toml @CROCEVIA_DB.PLATFORM_DEMO.STREAMLIT_STAGE/crocevia_cockpit/.streamlit
   OVERWRITE = TRUE AUTO_COMPRESS = FALSE;
 
 CREATE OR REPLACE STREAMLIT CROCEVIA_DB.PLATFORM_DEMO.CROCEVIA_COCKPIT
