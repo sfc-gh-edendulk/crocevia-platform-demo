@@ -14,7 +14,7 @@ Prereq: `CROCEVIA_DB` exists with the `BRONZE_DATA` tables (sales, products, sto
 | 2b | Iceberg (open lakehouse) | run `iceberg/01_iceberg_table.sql` → `02_governance_reuse.sql` → `03_verify.sql` (needs an external volume; uses `UNLMT_ICEBERG_VOL`) |
 | 3 | FinOps | run `finops/01_resource_monitor.sql` → `02_budget.sql` → `03_cost_views.sql` |
 | 4 | ML forecast | open `notebooks/crocevia_demand_forecast.ipynb` in Snowsight, Run all |
-| 5 | CoWork | run `cowork/01_semantic_view.sql` → `02_search_service.sql` → `03_agent.sql` |
+| 5 | CoWork | run `cowork/01_semantic_view.sql` → `02_search_service.sql` → `05_actions.sql` → `03_agent.sql` (05 creates the action tools the agent wires) |
 | 6 | Streamlit | run `streamlit/deploy_streamlit.sql` (uploads app to a stage + creates STREAMLIT) |
 | 7 | React | `cd react_app && cp .env.example .env && npm install && npm run dev` |
 
