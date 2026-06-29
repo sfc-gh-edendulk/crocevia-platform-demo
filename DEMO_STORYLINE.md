@@ -38,6 +38,28 @@ forecasting → natural-language analytics → business apps.**
 
 ---
 
+## 1b. Lakehouse ouvert — Apache Iceberg sur GCS (8 min)
+
+**Pain:** "we're already on Google Cloud / BigQuery — why move our data, why a second
+copy, why risk lock-in?"
+
+- `iceberg/01_iceberg_table.sql`: create the **Snowflake-managed Iceberg** table
+  `CUSTOMER_360_ICEBERG` (5.5 M rows) on external volume `UNLMT_ICEBERG_VOL` → Snowflake
+  writes **open Apache Iceberg (Parquet + metadata) into a GCS bucket the customer owns**.
+- `03_verify.sql`: `SYSTEM$GET_ICEBERG_TABLE_INFORMATION` shows the metadata file path is in
+  `gcs://…` — the *same files* BigQuery, Spark or Trino can read. No copy, no migration.
+- `iceberg/02_governance_reuse.sql`: attach the **same** `MASK_*` + `RAP_REGION` policies
+  from §2 to the open table → governance is decoupled from storage format.
+
+> *Message :* « Vos données restent dans votre Google Cloud Storage, au format ouvert
+> Apache Iceberg — lisibles par BigQuery ou Spark. Snowflake ajoute la performance, la
+> gouvernance et l'IA *par-dessus*, sans déplacer ni recopier la donnée. Pas de
+> verrouillage. »
+
+**Demo line:** "Your data, your bucket, open format — Snowflake's engine and governance on top."
+
+---
+
 ## 2. Gouvernance qui ouvre l'accès — tags, masking, row-access (15 min)
 
 **Pain:** governance is often restrictive and slows predictive use cases; PII everywhere;

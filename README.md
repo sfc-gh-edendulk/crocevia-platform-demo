@@ -15,6 +15,7 @@ data to governed, AI-ready, self-service insight.
 | Layer | Folder | Snowflake capability | Pain it answers |
 | --- | --- | --- | --- |
 | Transformation | `dbt_crocevia/` | dbt project on Snowflake | reliable pipelines, data quality, time-to-data, domain onboarding |
+| Open lakehouse | `iceberg/` | Snowflake-managed Apache Iceberg on GCS | open format / no lock-in, data stays in your cloud storage, governance still applies |
 | Governance | `governance/` | tags, masking, row-access, classification | strong-but-not-restrictive governance, PII, scattered systems |
 | FinOps | `finops/` | budgets, resource monitors, cost attribution | TCO, cost-per-workload, cost-center chargeback |
 | ML | `notebooks/` | Cortex `FORECAST` + price elasticity | merchandise forecasting (7–14d), price elasticity |
@@ -33,6 +34,13 @@ data to governed, AI-ready, self-service insight.
 
 All demo-built objects land in the additive schema **`CROCEVIA_DB.PLATFORM_DEMO`**.
 
+**Open lakehouse:** `iceberg/` writes `CUSTOMER_360_ICEBERG` (5.5 M rows) as open Apache
+Iceberg (Parquet + Iceberg metadata) directly into a **GCS bucket you own**
+(`gcs://crocevia_rawdata/unlmt_dcr/…`), via the existing `UNLMT_ICEBERG_VOL` external
+volume. Any Iceberg-aware engine (BigQuery, Spark, Trino, …) can read the same files — and
+the **same masking + row-access policies** from `governance/` attach unchanged, proving
+governance is decoupled from storage format.
+
 > Data is **synthetic**. Crocevia is a fictional retailer used purely to illustrate
 > Snowflake capabilities.
 
@@ -44,6 +52,7 @@ See [`deploy/RUNBOOK.md`](deploy/RUNBOOK.md). Short version:
 deploy/00_context.sql
 dbt_crocevia/         (EXECUTE DBT PROJECT, or local `dbt build`)
 governance/01_tags.sql → 02_masking.sql → 03_row_access.sql → 04_classification.sql
+iceberg/01_iceberg_table.sql → 02_governance_reuse.sql → 03_verify.sql   (after governance/)
 finops/01_resource_monitor.sql → 02_budget.sql → 03_cost_views.sql
 notebooks/crocevia_demand_forecast.ipynb
 cowork/01_semantic_view.sql → 02_search_service.sql → 03_agent.sql
